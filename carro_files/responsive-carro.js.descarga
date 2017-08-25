@@ -1,0 +1,156 @@
+
+jQuery(document).ready(function($) {
+	
+	   //En casoe de IE, ignorar funciones responsive
+	   if(jQuery.browser.msie && parseFloat(jQuery.browser.version) <= 8){
+		   return;
+	   }
+
+      var cargarMas =  function (){
+
+            /*boton ver mas para productos recomendados */
+            jQuery('#ShoppingCartRightSideBarAds .element').each(function(index ){
+                if(index >= 3){
+                    jQuery(this).addClass('cerrado');           
+                } 
+            });
+
+            if(jQuery('.cerrado').length > 0){
+                jQuery('#btn-recomendados-carro').unbind('touchstart click');
+                jQuery('#btn-recomendados-carro').on('touchstart click', function(e){
+                e.preventDefault();
+                    if(jQuery('.cerrado').hasClass('abierto')){
+                        jQuery('.cerrado').removeClass('abierto');
+                        jQuery(this).html('Ver +');
+                    }else{
+                        jQuery('.cerrado').addClass('abierto');
+                        jQuery(this).html('Ver -');
+                    }             
+                });
+            }else{
+                jQuery('#btn-recomendados-carro').hide();
+            }
+            
+
+            /*boton ver mas para productos vistos */
+
+            if(jQuery('#ShoppingCartFeaturedProducts .element').length == 0){
+                    jQuery('#btn-vistos-carro').hide();
+                    jQuery('#TituloProdVistos').hide();
+                    jQuery('#ShoppingCartFeaturedProducts').hide();
+  
+            }  
+            
+            jQuery('#ShoppingCartFeaturedProducts .element').each(function(index ){
+                if(index < 3){
+                   jQuery('#btn-vistos-carro').hide();                       
+                }else{
+                    jQuery('#btn-vistos-carro').show(); 
+                    jQuery(this).addClass('cerradoVisto');
+                }
+
+            }); 
+
+            if(jQuery('.cerradoVisto').length > 0){
+                jQuery('#btn-vistos-carro').unbind('touchstart click');
+                jQuery('#btn-vistos-carro').on('touchstart click', function(e){
+                e.preventDefault();
+                    if(jQuery('.cerradoVisto').hasClass('abierto')){
+                        jQuery('.cerradoVisto').removeClass('abierto');
+                        jQuery(this).html('Ver +');
+                    }else{
+                        jQuery('.cerradoVisto').addClass('abierto');
+                        jQuery(this).html('Ver -');
+                    }             
+                });
+            }else{
+                jQuery('btn-vistos-carro').hide();
+            }
+
+            /*jQuery('#ShoppingCartFeaturedProducts .element').each(function(index ){
+                if(index >= 3){
+                    jQuery(this).addClass('cerradoVisto');           
+                } 
+            }); */
+
+            
+
+            /*Cargo total productos de Carro */
+            try{
+                var TotalCarro=document.getElementById("CarroProdTotal").value;         
+                document.getElementById("CarroProdTotalMobile2").innerHTML = TotalCarro;
+            }catch(e){}
+
+
+
+        jQuery('.Open_ver_mas_mobile').magnificPopup({
+            type: 'inline'
+        });
+        jQuery('.btn_promo_carro').magnificPopup({
+            type: 'inline'
+        });
+        jQuery('.icono-pregunta').magnificPopup({
+            type: 'inline'
+        });
+        jQuery('.abre-popup, .icono-pregunta').magnificPopup({
+            type: 'inline'
+        });
+
+
+
+        jQuery('.free_gift_container').magnificPopup({
+           type: 'inline'
+         });
+
+
+        /*Elimina Fondo negro descuento */
+        jQuery('.muestra_urlpopupcarro').on('click', function(e){   
+  
+            jQuery('.mfp-bg').removeClass('mfp-bg');  
+           
+        });
+
+        
+        
+
+    }
+       
+        
+        cargarMas();
+        dojo.subscribe("ajaxRequestCompleted", cargarMas );
+        
+  });
+
+function reloadScrollBars() {
+    document.documentElement.style.overflow = 'auto';  // firefox, chrome
+    document.body.scroll = "yes"; // ie only
+}
+function unloadScrollBars() {
+    document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+    document.body.scroll = "no"; // ie only
+}
+
+function closeGarantia(idModal){
+
+	
+	var menuDropDown =  dijit.byId(idModal);
+	if (menuDropDown){
+		menuDropDown.closeDropDown(true); //close and set focus
+	}
+
+}
+
+/*Oculta tooltips de error numero*/
+function closeTooltips(){
+    try{
+        setTimeout(function(){            
+            jQuery('#dijit__MasterTooltip_0').addClass('ToolTips');
+        }, 4000);
+    }catch(e){
+        
+    }    
+}
+
+
+    
+
